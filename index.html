@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Editor Portfolio</title>
+<meta name="description" content="Video editor portfolio: projects, client reviews and resume.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F8FD; --card:#fff; --ink:#1A1D2E; --muted:#5E6480; --line:#E3E7F3; --tint:#EDF1FB;
+  --a:#5B5BF5; --b:#FF8A5B; --c:#2FC4A8; --r:18px;
+  --shadow:0 10px 30px -12px rgba(40,50,120,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font:400 1rem/1.65 'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+img,video,iframe{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.logo{font-family:'Bricolage Grotesque','DM Sans',sans-serif;line-height:1.1;letter-spacing:-.02em}
+h1{font-size:clamp(2.2rem,6vw,4.2rem);font-weight:800}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;margin-bottom:1.6rem}
+h3{font-size:1.25rem;margin:0 0 1rem}
+.wrap{width:min(1180px,100% - 2.5rem);margin:auto}
+.sec{padding:clamp(3.5rem,8vw,6.5rem) 0}
+.tint{background:var(--tint)}
+.lead{color:var(--muted);font-size:1.1rem;max-width:56ch;margin:1.2rem 0}
+.muted{color:var(--muted);margin-top:1.5rem}
+:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+
+.btn{display:inline-block;background:var(--a);color:#fff;font-weight:700;padding:.85rem 1.5rem;border-radius:999px;border:2px solid var(--a);cursor:pointer;font-size:1rem;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px -8px var(--a)}
+.btn.ghost{background:transparent;color:var(--a)}
+.btn.small{padding:.5rem 1.1rem}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.6rem}
+.cta.center{justify-content:center}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:.9rem clamp(1rem,4vw,3rem);background:rgba(246,248,253,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.3rem}
+nav{display:flex;gap:1.6rem;align-items:center;font-weight:500}
+nav a:not(.btn):hover{color:var(--a)}
+.burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer}
+.burger span{display:block;width:24px;height:2px;background:var(--ink);margin:6px auto;transition:.2s}
+
+/* hero */
+.hero{padding:8.5rem 0 4rem;background:radial-gradient(900px 400px at 85% 0,#E2E4FF 0,transparent 70%),radial-gradient(600px 300px at 0 100%,#FFE6DB 0,transparent 70%)}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center}
+.role{font-weight:700;color:var(--a);margin-bottom:1rem}
+.stats{display:flex;gap:2rem;list-style:none;margin-top:2.2rem;flex-wrap:wrap}
+.stats b{display:block;font:800 1.9rem 'Bricolage Grotesque',sans-serif}
+.stats span{color:var(--muted);font-size:.9rem}
+.frame{position:relative;aspect-ratio:16/10;border-radius:var(--r);overflow:hidden;background:linear-gradient(135deg,#5B5BF5,#8B7BFF 55%,#FF8A5B);box-shadow:var(--shadow);cursor:pointer}
+.frame-media,.frame-media>*{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.frame-media .play{display:grid;place-items:center}
+.play span{width:76px;height:76px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25);color:var(--a);font-size:1.7rem;padding-left:5px;transition:transform .2s}
+.frame:hover .play span{transform:scale(1.08)}
+.tc{position:absolute;left:12px;top:12px;background:rgba(20,22,40,.65);color:#fff;font:500 .8rem ui-monospace,monospace;padding:.3rem .7rem;border-radius:8px;display:flex;gap:.5rem;align-items:center;pointer-events:none}
+.rec{width:8px;height:8px;border-radius:50%;background:#FF4D4D;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.timeline{position:relative;display:flex;gap:6px;margin-top:14px;height:30px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px}
+.timeline i{width:var(--w);background:var(--c);border-radius:6px;opacity:.85}
+.playhead{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--ink);border-radius:3px;left:0;animation:scrub 9s linear infinite}
+.playhead::before{content:"";position:absolute;top:-4px;left:-4px;width:11px;height:11px;background:var(--ink);border-radius:50%}
+@keyframes scrub{to{left:calc(100% - 3px)}}
+
+/* grid cards */
+.filters{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem}
+.chip{border:1px solid var(--line);background:#fff;padding:.45rem 1.1rem;border-radius:999px;font:500 .95rem inherit;font-family:inherit;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:1.6rem}
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s;text-align:left;border:0;font:inherit;color:inherit;display:block;width:100%}
+.card:hover{transform:translateY(-4px)}
+.thumb{aspect-ratio:16/10;background:linear-gradient(135deg,var(--g1,#5B5BF5),var(--g2,#FF8A5B));position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .badge{position:absolute;right:10px;bottom:10px;background:#fff;color:var(--ink);font-size:.8rem;font-weight:700;padding:.2rem .6rem;border-radius:999px}
+.card-body{padding:1.1rem 1.3rem 1.4rem}
+.card-body h3{margin:0 0 .3rem;font-size:1.2rem}
+.card-body p{color:var(--muted);font-size:.95rem}
+.empty{color:var(--muted)}
+
+/* reviews */
+.reviews{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.quote{background:var(--card);border-radius:var(--r);padding:1.8rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:1.2rem;justify-content:space-between}
+.quote q{font:500 1.1rem/1.6 'DM Sans',sans-serif;quotes:"\201C" "\201D"}
+.who b{display:block}.who span{color:var(--muted);font-size:.9rem}
+.vcard{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.vcard .thumb{cursor:pointer}
+.vcard .who{padding:1rem 1.3rem}
+.thumb .play{position:absolute;inset:0;display:grid;place-items:center}
+.thumb .play span{width:60px;height:60px;border-radius:50%;background:#fff;display:grid;place-items:center;color:var(--a);padding-left:4px}
+
+/* resume */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+.tl{list-style:none;border-left:3px solid var(--line);padding-left:1.4rem}
+.tl li{position:relative;margin-bottom:1.6rem}
+.tl li::before{content:"";position:absolute;left:-1.95rem;top:.45rem;width:13px;height:13px;border-radius:50%;background:var(--a);border:3px solid var(--bg)}
+.tl b{display:block;font-size:1.05rem}
+.tl small{color:var(--a);font-weight:700}
+.tl p{color:var(--muted);font-size:.95rem}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1rem 2rem;margin-bottom:2rem}
+.tool div{display:flex;justify-content:space-between;font-weight:500;margin-bottom:.35rem}
+.bar{height:8px;background:var(--line);border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:8px}
+
+.contact{text-align:center}.contact .lead{margin-inline:auto}
+footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.9rem}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(20,22,40,.7);display:grid;place-items:center;padding:1rem;overflow-y:auto}
+.modal[hidden]{display:none}
+.modal-box{position:relative;background:var(--bg);border-radius:var(--r);width:min(960px,100%);max-height:94vh;overflow-y:auto;padding:1.4rem}
+.close{position:sticky;float:right;top:0;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:#fff;font-size:1.6rem;cursor:pointer;box-shadow:var(--shadow)}
+.player{aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;margin:2.2rem 0 1rem}
+.player iframe,.player video{width:100%;height:100%;border:0}
+.meta{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}
+.meta span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.2rem .8rem;font-size:.85rem}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:.8rem;margin-top:1.2rem}
+.shots img{border-radius:10px;width:100%;cursor:zoom-in}
+
+/* responsive */
+@media(max-width:900px){
+  .hero{padding-top:7rem}.hero-grid,.cols{grid-template-columns:1fr}
+  .hero-visual{order:-1}
+}
+@media(max-width:760px){
+  .burger{display:block}
+  nav{position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);padding:1.2rem;gap:1rem;border-bottom:1px solid var(--line);display:none}
+  nav.open{display:flex}
+}
+@media(min-width:1600px){html{font-size:18px}.wrap{width:min(1400px,100% - 4rem)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <a href="#home" class="logo" id="logo"></a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  <nav id="menu">
+    <a href="#work">Work</a><a href="#reviews">Reviews</a><a href="#resume">Resume</a><a href="#contact" class="btn small">Hire me</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="role" id="role"></p>
+      <h1 id="tagline"></h1>
+      <p class="lead" id="about"></p>
+      <div class="cta">
+        <a href="#work" class="btn">See my work</a>
+        <a href="#contact" class="btn ghost">Let's talk</a>
+      </div>
+      <ul class="stats" id="stats"></ul>
+    </div>
+    <div class="hero-visual">
+      <div class="frame" id="reelFrame">
+        <div class="frame-media" id="reelMedia"></div>
+        <div class="tc"><span class="rec"></span> REC <b id="tc">00:00:00:00</b></div>
+      </div>
+      <div class="timeline" aria-hidden="true">
+        <i style="--w:30%;--c:var(--a)"></i><i style="--w:18%;--c:var(--b)"></i><i style="--w:26%;--c:var(--c)"></i><i style="--w:14%;--c:var(--a)"></i>
+        <em class="playhead"></em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="work">
+  <div class="wrap">
+    <h2>Selected work</h2>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="projects"></div>
+  </div>
+</section>
+
+<section class="sec tint" id="reviews">
+  <div class="wrap">
+    <h2>What clients say</h2>
+    <div class="grid reviews" id="reviewList"></div>
+  </div>
+</section>
+
+<section class="sec" id="resume">
+  <div class="wrap">
+    <h2>Resume</h2>
+    <div class="cols">
+      <div><h3>Experience</h3><ol class="tl" id="exp"></ol></div>
+      <div><h3>Education &amp; training</h3><ol class="tl" id="edu"></ol></div>
+    </div>
+    <h3>Tools I use</h3>
+    <div class="tools" id="tools"></div>
+    <p><a class="btn ghost" id="pdf" hidden download>Download resume</a></p>
+  </div>
+</section>
+
+<section class="sec tint" id="contact">
+  <div class="wrap contact">
+    <h2>Have a video to edit?</h2>
+    <p class="lead">Send me your idea and footage details. I reply within one day.</p>
+    <div class="cta center" id="contactBtns"></div>
+    <p class="muted" id="loc"></p>
+  </div>
+</section>
+</main>
+
+<footer><p id="foot"></p></footer>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="close" id="close" aria-label="Close">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   EDIT ONLY THIS BLOCK to update your website.
+   New project/review/job: copy one block, paste at the TOP of its list.
+   ============================================================ */
+window.PORTFOLIO = {
+  name: "Alex Mehta",
+  role: "Video Editor & Colorist",
+  tagline: "I turn raw footage into stories people finish watching.",
+  about: "Cinematic editing for brands, weddings and YouTube creators. Sharp cuts, clean color and sound that keeps viewers hooked from the first second to the last.",
+  photo: "",
+  showreel: "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+  email: "hello@alexmehta.com",
+  phone: "+91 98765 43210",
+  location: "Surat, Gujarat, India",
+  social: [
+    { label: "Instagram", url: "https://instagram.com/" },
+    { label: "YouTube",   url: "https://youtube.com/" },
+    { label: "LinkedIn",  url: "https://linkedin.com/" }
+  ],
+  stats: [
+    { value: "4+",   label: "Years editing" },
+    { value: "150+", label: "Projects delivered" },
+    { value: "60+",  label: "Happy clients" }
+  ],
+  projects: [
+    { title: "Brand Launch Film", category: "Commercial", year: "2026", client: "Nova Wear",
+      role: "Editing, Color Grading, Sound Design", tools: ["Premiere Pro","DaVinci Resolve"],
+      description: "A 60-second launch film for a fashion label. Fast rhythm cuts synced to music with a warm cinematic grade.",
+      thumbnail: "", video: "https://www.youtube.com/watch?v=eRsGyueVLvQ", screenshots: [] },
+    { title: "Royal Wedding Highlights", category: "Wedding", year: "2026", client: "Riya & Karan",
+      role: "Editing, Music Sync, Color", tools: ["Final Cut Pro"],
+      description: "Three days of ceremonies cut into an emotional 5-minute highlight film.",
+      thumbnail: "", video: "https://www.youtube.com/watch?v=aqz-KE-bpKQ", screenshots: [] },
+    { title: "Tech Review Series", category: "Social Media", year: "2025", client: "GadgetGuru",
+      role: "Editing, Motion Graphics, Subtitles", tools: ["After Effects","Premiere Pro"],
+      description: "Weekly YouTube episodes with animated lower thirds, jump cuts and retention-focused pacing.",
+      thumbnail: "", video: "https://www.youtube.com/watch?v=R6MlUcmOul8", screenshots: [] },
+    { title: "Travel Vlog: Rajasthan", category: "Travel", year: "2025", client: "Wander Diaries",
+      role: "Editing, Color Grading", tools: ["DaVinci Resolve"],
+      description: "Drone and handheld footage shaped into a calm, story-driven travel film.",
+      thumbnail: "", video: "https://www.youtube.com/watch?v=aqz-KE-bpKQ", screenshots: [] },
+    { title: "Restaurant Reels", category: "Social Media", year: "2025", client: "Spice Route",
+      role: "Short-form Editing", tools: ["CapCut","Premiere Pro"],
+      description: "A month of vertical reels that grew the restaurant's Instagram reach.",
+      thumbnail: "", video: "https://www.youtube.com/watch?v=R6MlUcmOul8", screenshots: [] },
+    { title: "Corporate Explainer", category: "Commercial", year: "2024", client: "FinEdge",
+      role: "Editing, Animation", tools: ["After Effects","Photoshop"],
+      description: "A clear 90-second explainer that simplifies a complex fintech product.",
+      thumbnail: "", video: "https://www.youtube.com/watch?v=eRsGyueVLvQ", screenshots: [] }
+  ],
+  reviews: [
+    { type: "video", name: "Rohan Shah", company: "Nova Wear", video: "https://www.youtube.com/watch?v=R6MlUcmOul8", poster: "" },
+    { type: "text", name: "Priya Desai", company: "Wander Diaries", quote: "Delivered before the deadline and the edit was better than what I imagined. Will work together again." },
+    { type: "text", name: "Karan Patel", company: "GadgetGuru", quote: "Our watch time went up after Alex started editing our videos. Great communication throughout." },
+    { type: "text", name: "Sneha Joshi", company: "Spice Route", quote: "Professional, fast and very creative with reels. Highly recommended for any brand." }
+  ],
+  experience: [
+    { title: "Senior Video Editor", place: "Pixel Frame Studio, Surat", period: "2024 - Present", detail: "Lead edits for commercial and wedding projects, mentor junior editors." },
+    { title: "Video Editor", place: "Creative Hub Media", period: "2022 - 2024", detail: "Edited YouTube, reels and ad films for 30+ clients." },
+    { title: "Freelance Editor", place: "Self-employed", period: "2021 - 2022", detail: "Started editing for local creators and small businesses." }
+  ],
+  education: [
+    { title: "Professional Video Editing Course", place: "Arena Animation, Surat", period: "2021", detail: "Premiere Pro, After Effects, color grading and sound." },
+    { title: "Higher Secondary (12th)", place: "Sunrise Higher Secondary School", period: "2020", detail: "" },
+    { title: "Secondary (10th)", place: "Sunrise High School", period: "2018", detail: "" }
+  ],
+  tools: [
+    { name: "Premiere Pro", level: 95 },
+    { name: "After Effects", level: 80 },
+    { name: "DaVinci Resolve", level: 85 },
+    { name: "Final Cut Pro", level: 75 },
+    { name: "Photoshop", level: 70 },
+    { name: "CapCut", level: 90 }
+  ],
+  resumePDF: ""
+};
+
+</script>
+<script>
+(function(){
+const D = window.PORTFOLIO, $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const grads = [['#5B5BF5','#8B7BFF'],['#FF8A5B','#FFB36B'],['#2FC4A8','#5B9BF5'],['#8B5BF5','#FF8A9B']];
+
+/* Turn any video link into an embeddable player */
+function player(url){
+  if(!url) return '<div class="empty" style="display:grid;place-items:center;height:100%;color:#fff">Video coming soon</div>';
+  let m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  if(m) return `<iframe src="https://www.youtube.com/embed/${m[1]}?autoplay=1&rel=0" allow="autoplay;fullscreen" allowfullscreen></iframe>`;
+  m = url.match(/vimeo\.com\/(\d+)/);
+  if(m) return `<iframe src="https://player.vimeo.com/video/${m[1]}?autoplay=1" allow="autoplay;fullscreen" allowfullscreen></iframe>`;
+  m = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+  if(m) return `<iframe src="https://drive.google.com/file/d/${m[1]}/preview" allow="autoplay;fullscreen" allowfullscreen></iframe>`;
+  return `<video src="${esc(url)}" controls autoplay playsinline></video>`;
+}
+function ytThumb(url){const m=(url||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);return m?`https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`:'';}
+const thumbHTML = (img,i,extra='') => `<div class="thumb" style="--g1:${grads[i%4][0]};--g2:${grads[i%4][1]}">${img?`<img src="${esc(img)}" alt="" loading="lazy">`:''}${extra}</div>`;
+
+/* Basic info */
+document.title = `${D.name} | ${D.role}`;
+$('logo').textContent = D.name;
+$('role').textContent = D.role;
+$('tagline').textContent = D.tagline;
+$('about').textContent = D.about;
+$('foot').textContent = `© ${new Date().getFullYear()} ${D.name}. All rights reserved.`;
+$('loc').textContent = D.location;
+$('stats').innerHTML = (D.stats||[]).map(s=>`<li><b>${esc(s.value)}</b><span>${esc(s.label)}</span></li>`).join('');
+
+/* Showreel */
+const media = $('reelMedia'), reel = D.showreel;
+const reelImg = ytThumb(reel) || D.photo;
+media.innerHTML = (reelImg?`<img src="${esc(reelImg)}" alt="">`:'') + (reel?'<div class="play"><span>&#9654;</span></div>':'');
+$('reelFrame').addEventListener('click',()=>{ if(reel) media.innerHTML = player(reel); });
+
+/* Fake timecode */
+let f=0; setInterval(()=>{f++;const p=n=>String(n).padStart(2,'0');$('tc').textContent=`00:00:${p(Math.floor(f/24)%60)}:${p(f%24)}`},42);
+
+/* Projects + filters */
+const cats = ['All', ...new Set(D.projects.map(p=>p.category).filter(Boolean))];
+function drawProjects(cat){
+  const list = D.projects.map((p,i)=>({p,i})).filter(x=>cat==='All'||x.p.category===cat);
+  $('projects').innerHTML = list.map(({p,i})=>`
+    <button class="card" data-i="${i}">
+      ${thumbHTML(p.thumbnail||ytThumb(p.video),i,`${p.video?'<div class="play"><span>&#9654;</span></div>':''}<span class="badge">${esc(p.category)}</span>`)}
+      <div class="card-body"><h3>${esc(p.title)}</h3><p>${esc(p.year)}${p.client?' · '+esc(p.client):''}</p></div>
+    </button>`).join('') || '<p class="empty">No projects yet.</p>';
+}
+$('filters').innerHTML = cats.length>2 ? cats.map((c,i)=>`<button class="chip${i?'':' on'}">${esc(c)}</button>`).join('') : '';
+$('filters').addEventListener('click',e=>{
+  if(!e.target.classList.contains('chip')) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  e.target.classList.add('on'); drawProjects(e.target.textContent);
+});
+drawProjects('All');
+
+/* Modal */
+const modal=$('modal'), body=$('modalBody');
+function open(html){body.innerHTML=html;modal.hidden=false;document.body.style.overflow='hidden';}
+function shut(){modal.hidden=true;body.innerHTML='';document.body.style.overflow='';}
+$('close').onclick=shut;
+modal.addEventListener('click',e=>{if(e.target===modal)shut()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()});
+
+$('projects').addEventListener('click',e=>{
+  const c=e.target.closest('.card'); if(!c) return;
+  const p=D.projects[c.dataset.i];
+  open(`<div class="player">${player(p.video)}</div>
+    <h3>${esc(p.title)}</h3>
+    <div class="meta"><span>${esc(p.category)}</span><span>${esc(p.year)}</span>${p.client?`<span>Client: ${esc(p.client)}</span>`:''}${p.role?`<span>${esc(p.role)}</span>`:''}</div>
+    <p class="lead" style="margin:.5rem 0">${esc(p.description)}</p>
+    <div class="meta">${(p.tools||[]).map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+    ${(p.screenshots||[]).length?`<div class="shots">${p.screenshots.map(s=>`<a href="${esc(s)}" target="_blank" rel="noopener"><img src="${esc(s)}" alt="Screenshot of ${esc(p.title)}" loading="lazy"></a>`).join('')}</div>`:''}`);
+});
+
+/* Reviews */
+$('reviewList').innerHTML = D.reviews.map((r,i)=> r.type==='video'
+  ? `<div class="vcard"><div class="thumb" data-v="${i}" style="--g1:${grads[i%4][0]};--g2:${grads[i%4][1]}">${(r.poster||ytThumb(r.video))?`<img src="${esc(r.poster||ytThumb(r.video))}" alt="" loading="lazy">`:''}<div class="play"><span>&#9654;</span></div></div><div class="who"><b>${esc(r.name)}</b><span>${esc(r.company)}</span></div></div>`
+  : `<figure class="quote"><q>${esc(r.quote)}</q><figcaption class="who"><b>${esc(r.name)}</b><span>${esc(r.company)}</span></figcaption></figure>`).join('');
+$('reviewList').addEventListener('click',e=>{
+  const t=e.target.closest('[data-v]'); if(!t) return;
+  open(`<div class="player">${player(D.reviews[t.dataset.v].video)}</div>`);
+});
+
+/* Resume */
+const tl = a => a.map(x=>`<li><small>${esc(x.period)}</small><b>${esc(x.title)}</b><span>${esc(x.place)}</span>${x.detail?`<p>${esc(x.detail)}</p>`:''}</li>`).join('');
+$('exp').innerHTML = tl(D.experience); $('edu').innerHTML = tl(D.education);
+$('tools').innerHTML = D.tools.map(t=>`<div class="tool"><div><span>${esc(t.name)}</span><span>${+t.level}%</span></div><div class="bar"><i style="width:${+t.level}%"></i></div></div>`).join('');
+if(D.resumePDF){const a=$('pdf');a.href=D.resumePDF;a.hidden=false;}
+
+/* Contact */
+const wa = (D.phone||'').replace(/\D/g,'');
+$('contactBtns').innerHTML = `<a class="btn" href="mailto:${esc(D.email)}">${esc(D.email)}</a>`
+  + (wa?`<a class="btn ghost" href="https://wa.me/${wa}" target="_blank" rel="noopener">WhatsApp</a>`:'')
+  + (D.social||[]).map(s=>`<a class="btn ghost" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a>`).join('');
+
+/* Mobile menu */
+const burger=$('burger'), menu=$('menu');
+burger.onclick=()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+menu.addEventListener('click',e=>{if(e.target.tagName==='A')menu.classList.remove('open')});
+})();
+
+</script>
+</body>
+</html>
